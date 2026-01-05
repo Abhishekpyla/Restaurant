@@ -1,0 +1,66 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu - Bella Vista Restaurant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/Menu-styles.css' %}" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">Bella Vista Restaurant</div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="nav-menu">
+      <li><a href="{% url 'index' %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li>HELLO... {{user.first_name}}</li>
+      <li><a href="{% url 'menu' %}">Menu</a></li>
+      <li><a href="{% url 'feedback' %}">Feedback</a></li>
+      <li><a href="{% url 'logout' %}">logout</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <main class="container">
+    <div class="menu-header">
+      <h1>Our Menu</h1>
+      <p>Authentic Indian Cuisine</p>
+      
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for dishes..." oninput="searchMenu()">
+        <button onclick="searchMenu()">🔍</button>
+      </div>
+    </div>
+
+    <div class="category-filters">
+      <button class="filter-btn active" onclick="showCategory('all')">All Items</button>
+      <button class="filter-btn " onclick="showCategory('Starters')">Starters</button>
+      <button class="filter-btn " onclick="showCategory('mains')">Main Course</button>
+      <button class="filter-btn " onclick="showCategory('desserts')">Desserts</button>
+      <button class="filter-btn " onclick="showCategory('beverages')">Beverages</button>
+    </div>
+
+    <div class="menu-grid" id="menu-items">
+      {% for item in items %}
+      <div class="menu-item" data-category="{{item.category}}" data-type="{{item.kind}}"> 
+        <div class="item-image">
+          <img src="{{item.img.url}}"/>
+        </div>
+        <h3>{{item.name}}</h3>
+        <p class="description">{{item.desc}}</p>
+        <p class="price">₹{{item.price}}</p>
+        <span class="item-type {{item.kind}}">{{item.kind}}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer class="footer">© 2025 Bella Vista. All rights reserved.</footer>
+
+  <script src="{% static 'js/Menu-script.js' %}"></script>
+</body>
+</html>

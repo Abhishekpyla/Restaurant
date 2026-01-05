@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Bella Vista</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/Styles.css' %}" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">Restaurant Management System</div>
+    <ul class="nav-menu">
+      <li><a href="{% url 'index' %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li>HELLO... {{user.first_name}}</li>
+      <li><a href="{% url 'menu' %}">Menu</a></li>
+      <li><a href="{% url 'feedback' %}">Feedback</a></li>
+      <li><a href="{% url 'logout' %}">logout</a></li>
+      {% else %}
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="page-section active fade">
+      <h2>Login Portal</h2>
+      <div class="login-container">
+        <div class="login-tabs">
+          <button class="tab-btn active" onclick="showLoginTab('customer')">Customer Login</button>
+          <button class="tab-btn" onclick="showLoginTab('staff')">Staff Login</button>
+        </div>
+
+        <div id="customer-login-form" class="login-form-container active">
+          <h3>Customer Login</h3>
+          <p>Login to manage your reservations.</p>
+          <form class="login-form" method='POST' action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Create a password" required />
+
+            <button type="submit">Customer Login</button>
+
+            <h5>Do you have not any account?&emsp;<a href="{% url 'signup' %}">signup here</a></h5>
+          </form>
+        </div>
+
+        <div id="staff-login-form" class="login-form-container">
+          <h3>Staff Login</h3>
+          <p>Staff portal access.</p>
+          <form class="login-form" method="POST" action="{% url 'staff_login' %}">
+            {% csrf_token %}
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
+
+            <label for="staff-password">Password</label>
+            <input type="password" id="staff-password" name="password" placeholder="Enter your password" required />
+
+            <button type="submit">Staff Login</button>
+          </form>
+        </div>
+        {% if messages %}
+          <div class="message-container">
+            {% for message in messages %}
+              <div class="message {{ message.tags }}">
+                <h3>{{ message }}</h3>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© 2025 Bella Vista. All rights reserved.</footer>
+  <script>
+    function showLoginTab(tab) {
+      const customerForm = document.getElementById('customer-login-form');
+      const staffForm = document.getElementById('staff-login-form');
+      const buttons = document.querySelectorAll('.tab-btn');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      if (tab === 'customer') {
+        customerForm.classList.add('active');
+        staffForm.classList.remove('active');
+        buttons[0].classList.add('active');
+      } else {
+        staffForm.classList.add('active');
+        customerForm.classList.remove('active');
+        buttons[1].classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

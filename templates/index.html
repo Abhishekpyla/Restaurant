@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bella Vista Restaurant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/Styles.css' %}" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">Restaurant Management System</div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="nav-menu">
+      <li><a href="{% url 'index' %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li>HELLO... {{user.first_name}}</li>
+      <li><a href="{% url 'menu' %}">Menu</a></li>
+      <li><a href="{% url 'feedback' %}">Feedback</a></li>
+      <li><a href="{% url 'logout' %}">logout</a></li>
+      {% else %}
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section id="home" class="page-section active fade">
+      <h1>Welcome to Bella Vista</h1>
+      <p style="font-size: 20px;">Where flavor meets elegance. Experience authentic Indian cuisine.Were thrilled to welcome you to our official website — your gateway to a delightful dining experience.
+        At Restaurant, we serve more than just food — we serve memories. Whether you're here to explore our menu, make a reservation, or learn more about our story, you're in the right place.
+        From traditional favorites to chefs specials, every dish is prepared with love, fresh ingredients, and a touch of culinary passion. Whether you’re dining in, ordering out, or planning an event, we’re here to make every moment special.
+        Feel free to browse our menu, check out our latest offers, or get in touch with our team. We look forward to serving you soon!</p>    
+      <div class="cta">
+        {% if user.is_authenticated %}
+        <h2>Thank you</h2>
+        {% else %}
+        <button onclick="location.href={% url 'login' %}" target="_blank" style="margin-right: 2px; margin-top: 20px; margin-left: 350px;">Login</button>
+        <button onclick="location.href={% url 'signup' %}" target="_blank">signup</button>
+        {% endif %}
+      </div>
+    </section>
+
+    <section id="about" class="page-section active fade">
+      <h2>About Us</h2>
+      <p style="text-align: center; font-size: 1.2rem; background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; color: #000000;">
+        Welcome to our restaurant — where great food meets warm hospitality.
+        We are passionate about creating a space where everyone feels welcome and every meal is made with care. Whether you're stopping by for a quick lunch, a relaxing dinner, or a special celebration, our team is here to make your experience memorable.
+        Our menu is thoughtfully crafted with a focus on freshness, flavor, and variety. From timeless classics to modern favorites, every dish is prepared using quality ingredients to satisfy every palate.
+        At the heart of everything we do is a simple belief: good food brings people together. That's why we are dedicated to serving not just meals, but meaningful moments.
+        Thank you for choosing us. We look forward to serving you soon!
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">© 2025 Bella Vista. All rights reserved.</footer>
+
+  <script src="{% static 'js/Script.js' %}"></script>
+</body>
+</html>

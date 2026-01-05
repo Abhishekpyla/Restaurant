@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>feedback</title>
+  <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">Restaurant Management System</div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="nav-menu">
+      <li><a href="{% url 'index' %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li>HELLO... {{user.first_name}}</li>
+      <li><a href="{% url 'menu' %}">Menu</a></li>
+      <li><a href="{% url 'feedback' %}">Feedback</a></li>
+      <li><a href="{% url 'logout' %}">logout</a></li>
+      {% else %}
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section id="feedback" class="page-section active fade">
+      <h2>Customer Feedback</h2>
+      <p>We value your feedback. Please let us know how we did.</p>
+      
+      <form class="feedback-form" action="#" method="post">
+        {% csrf_token %}
+
+        <label for="feedback-name">Full Name</label>
+        <input type="text" id="feedback-name" name="fname" placeholder="Your name" required />
+
+        <label for="feedback-email">Email Address</label>
+        <input type="email" id="feedback-email" name="femail" placeholder="Your email" required />
+
+        <label for="feedback-rating">Rate Our Service</label>
+        <select id="feedback-rating" name="frating" required>
+          <option value="">Choose</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+
+        <label for="feedback-comments">Your Comments</label>
+        <textarea id="feedback-comments" name="fcomments" rows="5" placeholder="Write your feedback here..." required></textarea>
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </section>
+  </main>
+  
+  <footer class="footer">© 2025 Bella Vista. All rights reserved.</footer>
+
+  <script src="{% static 'js/Script.js' %}"></script>
+</body>
+</html>
+    
