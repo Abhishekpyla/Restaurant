@@ -58,7 +58,7 @@
           <form class="login-form" method="POST" action="{% url 'staff_login' %}">
             {% csrf_token %}
             <label for="username">username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required />
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />  
 
             <label for="staff-password">Password</label>
             <input type="password" id="staff-password" name="password" placeholder="Enter your password" required />
